@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background_light">#F8F9FA</color>
+    <color name="primary">#FF5722</color>
+    <color name="primary_dark">#E64A19</color>
+    <color name="secondary">#FF9800</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#757575</color>
+    <string name="app_name">QuickBite</string>
+    <string name="demo_mode_banner">QuickBite Demo Mode Active</string>
+    <string name="gcm_defaultSenderId" translatable="false">123456789012</string>
+    <string name="google_api_key" translatable="false">AIzaSyDEMO_KEY_QUICKBITE_PORTFOLIO_TEST</string>
+    <string name="google_app_id" translatable="false">1:123456789012:android:abcdef1234567890</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDEMO_KEY_QUICKBITE_PORTFOLIO_TEST</string>
+    <string name="google_storage_bucket" translatable="false">quickbite-demo.appspot.com</string>
+    <string name="project_id" translatable="false">quickbite-demo</string>
+    <string name="tagline">Gourmet Food Delivered Fast</string>
+    <style name="Theme.QuickBite" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">#FFFFFF</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

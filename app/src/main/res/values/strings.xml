@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">QuickBite</string>
+    <string name="tagline">Gourmet Food Delivered Fast</string>
+    <string name="demo_mode_banner">QuickBite Demo Mode Active</string>
+</resources>

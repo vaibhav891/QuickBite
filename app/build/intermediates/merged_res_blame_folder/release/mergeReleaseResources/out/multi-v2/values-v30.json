@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.quickbite.app-mergeReleaseResources-94:/values-v30/values-v30.xml",
+            "map": [
+                {
+                    "source": "/Users/vaibhavsultania/.gradle/caches/8.9/transforms/d6a8af40ff6e379c42edf48a1311200c/transformed/material3-release/res/values-v30/values-v30.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "72",
+                        "endOffsets": "123"
+                    }
+                }
+            ]
+        }
+    ]
+}

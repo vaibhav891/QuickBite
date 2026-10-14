@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.quickbite.app.CartCalculationTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-14T10:33:57" hostname="Vaibhavs-MacBook-Air-2.local" time="0.007">
+  <properties/>
+  <testcase name="testDecreasingQuantityToZeroRemovesItem" classname="com.quickbite.app.CartCalculationTest" time="0.006"/>
+  <testcase name="testIncreasingQuantityUpdatesTotalsProperly" classname="com.quickbite.app.CartCalculationTest" time="0.0"/>
+  <testcase name="testMultipleDistinctItemsCalculation" classname="com.quickbite.app.CartCalculationTest" time="0.0"/>
+  <testcase name="testSingleRestaurantRestrictionEnforced" classname="com.quickbite.app.CartCalculationTest" time="0.0"/>
+  <testcase name="testAddItemCalculatesSubtotalTaxAndTotalAccurately" classname="com.quickbite.app.CartCalculationTest" time="0.0"/>
+  <testcase name="testEmptyCartInitialState" classname="com.quickbite.app.CartCalculationTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

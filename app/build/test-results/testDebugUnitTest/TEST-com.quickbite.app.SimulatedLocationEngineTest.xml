@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.quickbite.app.SimulatedLocationEngineTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-14T10:33:57" hostname="Vaibhavs-MacBook-Air-2.local" time="0.007">
+  <properties/>
+  <testcase name="testWaypointsNotEmptyAndStartAtRestaurant" classname="com.quickbite.app.SimulatedLocationEngineTest" time="0.007"/>
+  <testcase name="testManualStepAdvance" classname="com.quickbite.app.SimulatedLocationEngineTest" time="0.0"/>
+  <testcase name="testBearingCalculationComputesPositiveAngle" classname="com.quickbite.app.SimulatedLocationEngineTest" time="0.0"/>
+  <testcase name="testProgressPercentCalculation" classname="com.quickbite.app.SimulatedLocationEngineTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

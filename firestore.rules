@@ -1,0 +1,102 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isCustomerOf(orderData) {
+      return isAuthenticated() && request.auth.uid == orderData.customerId;
+    }
+
+    function isRestaurantOf(orderData) {
+      return isAuthenticated() && (
+        request.auth.uid == orderData.restaurantId ||
+        request.auth.token.role == 'restaurant'
+      );
+    }
+
+    function isDeliveryPartnerOf(orderData) {
+      return isAuthenticated() && (
+        request.auth.uid == orderData.deliveryPartnerId ||
+        request.auth.token.role == 'delivery_partner'
+      );
+    }
+
+    // User profiles
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+    }
+
+    // Restaurants
+    match /restaurants/{restaurantId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && (
+        request.auth.uid == restaurantId ||
+        request.auth.token.role == 'admin'
+      );
+
+      match /menuItems/{itemId} {
+        allow read: if true;
+        allow write: if isAuthenticated() && (
+          request.auth.uid == restaurantId ||
+          request.auth.token.role == 'admin'
+        );
+      }
+    }
+
+    // Orders
+    match /orders/{orderId} {
+      // Customers can read their own orders.
+      // Restaurants can read orders placed with them.
+      // Delivery partners can read ready-for-pickup orders and their assigned orders.
+      allow read: if isAuthenticated() && (
+        isCustomerOf(resource.data) ||
+        isRestaurantOf(resource.data) ||
+        resource.data.status == 'READY_FOR_PICKUP' ||
+        isDeliveryPartnerOf(resource.data)
+      );
+
+      // Orders are created authoritatively via Cloud Functions or by authenticated customer
+      allow create: if isAuthenticated() && 
+                    request.resource.data.customerId == request.auth.uid &&
+                    request.resource.data.status == 'PLACED';
+
+      // Updates: State machine transitions
+      allow update: if isAuthenticated() && (
+        // Restaurant transitions
+        (isRestaurantOf(resource.data) && (
+          (resource.data.status == 'PLACED' && (request.resource.data.status == 'ACCEPTED' || request.resource.data.status == 'REJECTED')) ||
+          (resource.data.status == 'ACCEPTED' && request.resource.data.status == 'PREPARING') ||
+          (resource.data.status == 'PREPARING' && request.resource.data.status == 'READY_FOR_PICKUP')
+        )) ||
+        // Delivery partner transitions
+        (request.auth.token.role == 'delivery_partner' && (
+          (resource.data.status == 'READY_FOR_PICKUP' && request.resource.data.status == 'READY_FOR_PICKUP' && request.resource.data.deliveryPartnerId == request.auth.uid) ||
+          (resource.data.deliveryPartnerId == request.auth.uid && resource.data.status == 'READY_FOR_PICKUP' && request.resource.data.status == 'PICKED_UP') ||
+          (resource.data.deliveryPartnerId == request.auth.uid && resource.data.status == 'PICKED_UP' && request.resource.data.status == 'DELIVERED')
+        ))
+      );
+
+      // Order event history subcollection (Audit trail)
+      match /events/{eventId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated();
+        allow update, delete: if false; // Append-only immutable log
+      }
+    }
+
+    // Deliveries (simulated tracking state)
+    match /deliveries/{deliveryId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isAuthenticated();
+    }
+  }
+}
