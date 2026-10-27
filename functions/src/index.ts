@@ -25,10 +25,18 @@ const ALLOWED_TRANSITIONS: Record<string, string[]> = {
   DELIVERED: [],
 };
 
+// Cloud Functions region: Asia Pacific - Mumbai (asia-south1)
+const REGION = "asia-south1";
+const regionalFunctions = functions
+  .region(REGION)
+  .runWith({
+    serviceAccount: "quickbite-83328@appspot.gserviceaccount.com",
+  });
+
 /**
  * Callable Function: Create PaymentIntent with Server-Side Price Validation
  */
-export const createPaymentIntent = functions.https.onCall(async (data, context) => {
+export const createPaymentIntent = regionalFunctions.https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError("unauthenticated", "User must be authenticated to check out.");
   }
@@ -148,7 +156,7 @@ export const createPaymentIntent = functions.https.onCall(async (data, context) 
 /**
  * Callable Function: Confirm Order Creation after Payment
  */
-export const confirmOrder = functions.https.onCall(async (data, context) => {
+export const confirmOrder = regionalFunctions.https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError("unauthenticated", "User must be authenticated.");
   }
@@ -247,7 +255,7 @@ export const confirmOrder = functions.https.onCall(async (data, context) => {
 /**
  * Callable Function: Update Order Status (Enforces Centralized State Machine)
  */
-export const updateOrderStatus = functions.https.onCall(async (data, context) => {
+export const updateOrderStatus = regionalFunctions.https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError("unauthenticated", "Authentication required.");
   }
@@ -392,7 +400,7 @@ export const updateOrderStatus = functions.https.onCall(async (data, context) =>
 /**
  * Callable Function: Update Delivery Location (Simulation Step)
  */
-export const updateDeliveryLocation = functions.https.onCall(async (data, context) => {
+export const updateDeliveryLocation = regionalFunctions.https.onCall(async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError("unauthenticated", "Authentication required.");
   }
